@@ -1,0 +1,42 @@
+language: python
+python:
+  - "3.6.9"
+
+services:
+  - redis-server
+  - postgresql
+
+env:
+  - DJANGO=3.1.5 DB=postgresql
+
+install:
+  - python3 -m venv venv
+  - . venv/bin/activate
+  - python3 -m pip install --upgrade pip
+  - python3 -m pip install tblib  # for parallel test traceback
+  - python3 -m pip install -r requirements.txt 
+  - python3 -m pip install flake8 
+  - python3 -m pip install django-stubs==1.4.0 
+
+cache:
+  pip: true
+  yarn: true
+  directories:
+  - $HOME/usr/
+  - $HOME/venv
+  - node_modules
+
+before_script:
+  - cp financial_server/local_settings.py.ci financial_server/local_settings.py
+  - yarn install
+  - git remote set-branches --add origin master
+  - git fetch
+
+script:
+  - . venv/bin/activate
+  - python manage.py test --parallel
+  - export CHANGED_FILES=$(git diff --name-only --diff-filter=ACM origin/master ':(exclude).travis.yml')
+  - if [ -n "${CHANGED_FILES}" ]; then
+      echo "Checking ..." $CHANGED_FILES;
+      /home/travis/virtualenv/python3.6.9/bin/flake8 --exclude migrations,libraries,settings.py,*.yml,*.txt,*.html,*.js,*.css,*.ini,*.scss,*.md,mortgage.py,yarn.lock,package.json --ignore=E501,W503 $CHANGED_FILES;
+    fi
