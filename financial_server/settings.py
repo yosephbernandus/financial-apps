@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'financial_server.apps.permissions',
     'financial_server.apps.users',
     'financial_server.apps.balances',
+    'financial_server.apps.transactions',
 ]
 
 MIDDLEWARE = [

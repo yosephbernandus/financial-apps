@@ -8,7 +8,7 @@ class Balance(models.Model):
     initial = models.FloatField()
     current = models.FloatField(default=0)
     total = models.FloatField(default=0)
-    notes = models.TextField(default='')
+    notes = models.TextField(default='', blank=True, null=True)
     created = models.DateTimeField(default=timezone.localtime)
 
     def __str__(self) -> str:
