@@ -4,14 +4,14 @@ from rest_framework.response import Response
 
 from financial_server.api.response import ErrorResponse
 from financial_server.api.utils import force_login
-from financial_server.api.views import SessionAPIView
+from financial_server.api.views import FinancialAPIView
 from financial_server.apps.users.models import User
 from financial_server.core.serializers import serialize_user
 
 from .forms import AuthenticationForm
 
 
-class AuthLogin(SessionAPIView):
+class AuthLogin(FinancialAPIView):
 
     def post(self, request: Request) -> Response:
         form = AuthenticationForm(data=request.data)
@@ -21,7 +21,6 @@ class AuthLogin(SessionAPIView):
             user: User = request.user
 
             if not request.session.session_key:
-                import pdb; pdb.set_trace()
                 request.session.create()
 
             response = {
@@ -29,5 +28,5 @@ class AuthLogin(SessionAPIView):
                 'user': serialize_user(user)
             }
 
-            return Response(response, status=status.HTTP_200_ok)
+            return Response(response, status=status.HTTP_200_OK)
         return ErrorResponse(form=form)

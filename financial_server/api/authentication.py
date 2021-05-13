@@ -12,7 +12,7 @@ class JSONSingleTokenAuthentication(BaseAuthentication):
     Just like maxxstamps
     """
 
-    token = 'dOLww4CgHGea9Yr3N6Pfb6Juea6OedTqHcBv1WtVAdcKDY4hAxnf1MwEqaXClcIVc3'
+    token = 'Ip089Lww4CgHGea9Yr3N6Pfb6Juea6OedTqHcBv1WtVAdcKDY4hAxnf1MwEqaX617UyieEW'
 
     def authenticate(self, request):
         auth = request.data.get('token') or request.query_params.get('token')
