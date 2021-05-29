@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import (JSONParser, MultiPartParser, FormParser)
 from rest_framework.views import APIView
 from rest_framework.request import Request
 
@@ -20,7 +20,7 @@ class FinancialAPIView(APIView):
     authentication_classes = (JSONSingleTokenAuthentication,)
 
     renderer_classes = (JSONRenderer,)
-    parser_classes = (JSONParser,)
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
 
     @csrf_exempt
     def dispatch(self, request: Request, *args: Any, **kwargs: Any) -> Response:
