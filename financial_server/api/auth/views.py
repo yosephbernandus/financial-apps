@@ -45,13 +45,9 @@ class Register(FinancialAPIView):
 
         if form.is_valid():
             user: User = form.save()
-            force_login(request, user)
-
-            if not request.session.session_key:
-                request.session.create()
 
             response = {
-                    'session_key': request.session.session_key,
+                    'message': 'Successfull registered',
                     'user': serialize_user(user)
                 }
             return Response(response, status=status.HTTP_200_OK)
