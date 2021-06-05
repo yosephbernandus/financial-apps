@@ -28,7 +28,7 @@ class AuthenticationForm(DjangoAuthForm):
 
         self.user = User.objects.filter(email=username).first()
         if not self.user:
-            raise forms.ValidationError("Pengguna dengan email / nomor ponsel ini tidak ada")
+            raise forms.ValidationError("Pengguna dengan email ini tidak ada")
 
         return username
 
@@ -43,7 +43,7 @@ class AuthenticationForm(DjangoAuthForm):
         assert self.user is not None
         if not self.user.check_password(self.cleaned_data['password']):
             raise forms.ValidationError(
-                'Harap masukkan email / nomor ponsel dan kata sandi yang benar.'
+                'Harap masukkan email dan kata sandi yang benar.'
             )
 
         self.user_cache = self.user
