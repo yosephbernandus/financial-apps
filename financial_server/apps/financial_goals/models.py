@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from model_utils import Choices
 
@@ -16,6 +17,16 @@ class FinancialGoal(models.Model):
         (4, 'yearly', 'Tahunan'),
     )
     deposit_cycle = models.PositiveSmallIntegerField(choices=CYCLE)
+    created = models.DateTimeField(default=timezone.localtime)
 
     def __str__(self) -> str:
         return self.goal_name
+
+
+class GoalSavingsTransaction(models.Model):
+    goal = models.ForeignKey('financial_goals.FinancialGoal', related_name="transactions", on_delete=models.CASCADE)
+    amount = models.IntegerField()
+    created = models.DateTimeField(default=timezone.localtime)
+
+    def __str__(self) -> str:
+        return self.id
