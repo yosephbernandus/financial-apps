@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import FinancialGoal
+from .models import FinancialGoal, GoalSavingsTransaction
 
 
 class FinancialGoalAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class FinancialGoalAdmin(admin.ModelAdmin):
 
 
 admin.site.register(FinancialGoal, FinancialGoalAdmin)
+admin.site.register(GoalSavingsTransaction)
