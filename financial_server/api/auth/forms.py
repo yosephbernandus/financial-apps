@@ -1,16 +1,18 @@
+import phonenumbers
 from django import forms
 
 from datetime import date
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from financial_server.constants import PROVINCES
 from financial_server.core.fields import MobilePhoneField
 
 from django.utils import timezone
 
 from financial_server.apps.users.models import User, Profile
 from django.contrib.auth.forms import AuthenticationForm as DjangoAuthForm
+
+from financial_server.core.utils import normalize_phone
 
 from typing import Dict, Any
 
@@ -55,11 +57,8 @@ class AuthenticationForm(DjangoAuthForm):
 class RegistrationForm(forms.Form):
     name = forms.CharField()
     email = forms.EmailField()
-    nik = forms.CharField()
     phone = MobilePhoneField()
-    address = forms.CharField()
     birthday = forms.CharField()
-    gender = forms.ChoiceField(choices=Profile.GENDER)
     password = forms.CharField()
 
     def clean_email(self) -> str:
@@ -70,7 +69,11 @@ class RegistrationForm(forms.Form):
         return email
 
     def clean_phone(self) -> str:
-        phone = self.cleaned_data['phone']
+        try:
+            phone = normalize_phone(self.cleaned_data['phone'])
+        except phonenumbers.NumberParseException:
+            raise forms.ValidationError('Nomor ponsel tidak valid.', code='invalid_mobile_number')
+
         if User.objects.filter(phone=phone).exists():
             raise forms.ValidationError('Pengguna dengan nomor telepon ini sudah ada')
         return phone
@@ -91,36 +94,25 @@ class RegistrationForm(forms.Form):
 
         return birthday
 
-    def clean_nik(self) -> str:
-        """ Determine province from NIK prefix
-        """
-        nik = self.cleaned_data['nik']
-        province_code = int(nik[:2])
-        valid_province = set([province[0] for province in PROVINCES])
-        if (len(nik) != 16):
-            raise forms.ValidationError("NIK harus 16 karakter")
-        if province_code not in valid_province:
-            raise forms.ValidationError("Nomor NIK tidak valid")
-        if User.objects.filter(nik=nik).exists():
-            raise forms.ValidationError('Pengguna dengan nik ini sudah ada')
-        return nik
+    def clean(self) -> dict:
+        cleaned_data = super().clean()
+
+        if self.errors:
+            return cleaned_data
+
+        return cleaned_data
 
     def save(self) -> User:
-        nik = self.cleaned_data['nik']
-        address = self.cleaned_data['address']
-
         user: User = User.objects.create(
             name=self.cleaned_data['name'],
             email=self.cleaned_data['email'],
-            nik=nik,
             phone=self.cleaned_data['phone'],
-            province=nik[:2] if nik else None,
         )
+
+        user.set_password(self.cleaned_data['password'])
 
         Profile.objects.create(
             user=user,
-            address=address,
             birthday=self.cleaned_data['birthday'],
-            gender=self.cleaned_data['gender'],
         )
         return user
