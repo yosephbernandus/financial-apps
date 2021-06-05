@@ -129,7 +129,7 @@ class Profile(models.Model):
         (1, 'male', 'Laki-Laki'),
         (2, 'female', 'Perempuan'),
     )
-    gender = models.PositiveSmallIntegerField(choices=GENDER)
+    gender = models.PositiveSmallIntegerField(choices=GENDER, blank=True, null=True)
 
     RELIGION = Choices(
         (1, 'islam', 'Islam'),
