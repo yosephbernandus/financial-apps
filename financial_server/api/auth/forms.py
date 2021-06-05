@@ -94,6 +94,14 @@ class RegistrationForm(forms.Form):
 
         return birthday
 
+    def clean(self) -> dict:
+        cleaned_data = super().clean()
+
+        if self.errors:
+            return cleaned_data
+
+        return cleaned_data
+
     def save(self) -> User:
         user: User = User.objects.create(
             name=self.cleaned_data['name'],
