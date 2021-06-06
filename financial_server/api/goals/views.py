@@ -10,7 +10,7 @@ from financial_server.api.views import FinancialAPIView
 from financial_server.apps.financial_goals.models import FinancialGoal
 from financial_server.core.serializers import serialize_financial_goals
 
-from .forms import AddSavingsGoal
+from .forms import AddSavingsGoal, AddSavingGoalsTransaction
 
 
 class Sync(FinancialAPIView):
@@ -32,11 +32,24 @@ class Details(FinancialAPIView):
 
 
 class AddSavings(FinancialAPIView):
+    
     def post(self, request: Request) -> Response:
         form = AddSavingsGoal(data=request.data, user=request.user)
 
         if form.is_valid():
             goal = form.save()
             return response(serialize_financial_goals(goal), status=status.HTTP_200_OK)
+
+        return ErrorResponse(form=form)
+
+
+class AddSavingsTransaction(FinancialAPIView):
+
+    def post(self, request: Request) -> Response:
+        form = AddSavingGoalsTransaction(data=request.data)
+
+        if form.is_valid():
+            form.save()
+            return Response({"status": "ok"}, status=status.HTTP_200_OK)
 
         return ErrorResponse(form=form)

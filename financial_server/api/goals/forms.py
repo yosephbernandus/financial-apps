@@ -6,7 +6,7 @@ from typing import Dict, Any
 
 from financial_server.apps.users.models import User
 from financial_server.apps.categories.models import Category
-from financial_server.apps.financial_goals.models import FinancialGoal
+from financial_server.apps.financial_goals.models import FinancialGoal, GoalSavingsTransaction
 
 
 class AddSavingsGoal(forms.Form):
@@ -55,3 +55,10 @@ class AddSavingsGoal(forms.Form):
         )
 
         return goal
+
+
+class AddSavingGoalsTransaction(forms.ModelForm):
+
+    class Meta:
+        model = GoalSavingsTransaction
+        fields = ('goal', 'amount')
