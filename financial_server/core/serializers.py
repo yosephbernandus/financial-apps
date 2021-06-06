@@ -4,6 +4,7 @@ import calendar
 
 from financial_server.apps.users.models import User
 from financial_server.apps.categories.models import Category
+from financial_server.apps.financial_goals.models import FinancialGoal, GoalSavingsTransaction
 
 
 def serialize_user(user: User) -> Dict:
@@ -39,3 +40,26 @@ def serialize_category(category: Category) -> Dict:
     }
 
     return data
+
+
+def serialize_financial_goals(goal: FinancialGoal) -> Dict:
+    data = {
+        'id': goal.id,
+        'category': serialize_category(goal.category) if goal.category else None,
+        'amount': goal.amount,
+        'name': goal.goal_name,
+        'achievement_date': goal.achievement_date,
+        'deposit_cycle': goal.deposit_cycle,
+    }
+
+    data['transactions'] = [serialize_goal_savings_transaction(transaction) for transaction in goal.transactions.all()]
+
+    return data
+
+
+def serialize_goal_savings_transaction(transaction: GoalSavingsTransaction) -> Dict:
+    return {
+        'id': transaction.id,
+        'amount': transaction.amount,
+        'created': transaction.created.strftime("%Y-%m-%d") if transaction.created else None
+    }
