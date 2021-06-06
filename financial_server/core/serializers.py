@@ -52,7 +52,7 @@ def serialize_financial_goals(goal: FinancialGoal) -> Dict:
         'deposit_cycle': goal.deposit_cycle,
     }
 
-    data['transactions'] = [serialize_goal_savings_transaction(transaction) for transaction in goal.transactions.all()]
+    data['transactions'] = [serialize_goal_savings_transaction(transaction) for transaction in goal.transactions.order_by('id')]
 
     return data
 
