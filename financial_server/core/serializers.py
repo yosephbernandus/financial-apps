@@ -48,11 +48,12 @@ def serialize_financial_goals(goal: FinancialGoal) -> Dict:
         'category': serialize_category(goal.category) if goal.category else None,
         'amount': goal.amount,
         'name': goal.goal_name,
-        'achievement_date': goal.achievement_date,
+        'achievement_date': goal.achievement_date.strftime("%Y-%m-%d"),
         'deposit_cycle': goal.deposit_cycle,
     }
 
-    data['transactions'] = [serialize_goal_savings_transaction(transaction) for transaction in goal.transactions.order_by('id')]
+    if goal.transactions.exists():
+        data['transactions'] = [serialize_goal_savings_transaction(transaction) for transaction in goal.transactions.order_by('id')]
 
     return data
 
