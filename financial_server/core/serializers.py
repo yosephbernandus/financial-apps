@@ -45,7 +45,7 @@ def serialize_category(category: Category) -> Dict:
 def serialize_financial_goals(goal: FinancialGoal) -> Dict:
     data = {
         'id': goal.id,
-        'category': serialize_category(goal.category) if goal.category else None,
+        'category_id': goal.category.id if goal.category else None,
         'amount': goal.amount,
         'name': goal.goal_name,
         'achievement_date': goal.achievement_date.strftime("%Y-%m-%d"),
