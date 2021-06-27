@@ -16,7 +16,6 @@ from .forms import AddSavingsGoal, AddSavingGoalsTransaction
 class Sync(SessionAPIView):
 
     def get(self, request: Request) -> Response:
-        import pdb; pdb.set_trace()
         response = {
             'goals': [serialize_financial_goals(goal)
                       for goal in request.user.financial_goals.all()]
