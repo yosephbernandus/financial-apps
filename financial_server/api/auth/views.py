@@ -44,12 +44,11 @@ class Register(FinancialAPIView):
         form = RegistrationForm(data=request.data, files=request.FILES or None)
 
         if form.is_valid():
-            user: User = form.save()
+            form.save()
 
             response = {
-                    'message': 'Successfull registered',
-                    'user': serialize_user(user)
-                }
+                'message': 'Successfull registered'
+            }
             return Response(response, status=status.HTTP_200_OK)
 
         return ErrorResponse(form=form)

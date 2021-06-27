@@ -8,7 +8,8 @@ from rest_framework.parsers import (JSONParser, MultiPartParser, FormParser)
 from rest_framework.views import APIView
 from rest_framework.request import Request
 
-from .authentication import JSONSingleTokenAuthentication, APISessionAuthentication
+from .authentication import (JSONSingleTokenAuthentication,
+                             APISessionAuthentication)
 from .exceptions import APIError
 
 from .permissions import IsSecure
@@ -40,4 +41,5 @@ class FinancialAPIView(APIView):
 
 class SessionAPIView(FinancialAPIView):
 
-    authentication_classes = (JSONSingleTokenAuthentication, APISessionAuthentication)  # type: ignore
+    authentication_classes = (JSONSingleTokenAuthentication,
+                              APISessionAuthentication)  # type: ignore

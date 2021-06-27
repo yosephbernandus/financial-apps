@@ -42,7 +42,6 @@ class AuthenticationForm(DjangoAuthForm):
         if self.errors:
             return self.cleaned_data
 
-        assert self.user is not None
         if not self.user.check_password(self.cleaned_data['password']):
             raise forms.ValidationError(
                 'Harap masukkan email dan kata sandi yang benar.'
