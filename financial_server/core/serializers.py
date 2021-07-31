@@ -31,7 +31,7 @@ def serialize_user(user: User) -> Dict:
 
 
 def serialize_category(category: Category) -> Dict:
-    category_url = category.logo.url if category.logo else None
+    category_url = category.logo.thumbnails.size_140x140.url if category.logo else None
 
     data = {
         'id': category.id,
