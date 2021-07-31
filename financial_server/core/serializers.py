@@ -1,6 +1,7 @@
 from typing import Dict
 
 import calendar
+from django.conf import settings
 
 from financial_server.apps.users.models import User
 from financial_server.apps.categories.models import Category
@@ -38,6 +39,12 @@ def serialize_category(category: Category) -> Dict:
         'name': category.name,
         'logo_url': category_url
     }
+
+    # TODO: Change use furl
+    if settings.SHOW_IMAGE_FROM_LOCAL and category_url:
+        data['logo_url'] = f"{settings.HOST}{category_url}"
+
+    print(data)
 
     return data
 

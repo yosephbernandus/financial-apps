@@ -31,6 +31,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+HOST = "http://192.168.100.30:8000"
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -101,6 +104,9 @@ SESSION_COOKIE_AGE = 63_113_904
 SESSION_ENGINE = "smart_session_engine.session_engine"
 SESSION_CACHE_ALIAS = "sessions"
 SMART_SESSION_ENGINE_CONNECTION_URL = "redis://127.0.0.1:6379/1"
+
+
+SHOW_IMAGE_FROM_LOCAL = False
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

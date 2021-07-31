@@ -18,6 +18,7 @@ lxml==4.6.2
 # phone number
 id-phonenumbers==0.4.0
 phonenumberslite==8.12.17
+furl==2.1.2
 
 responses==0.12.1
 requests==2.25.1
