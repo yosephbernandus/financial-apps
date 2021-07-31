@@ -12,7 +12,7 @@ class Index(FinancialAPIView):
     def get(self, request: Request) -> Response:
         response = {
             'categories': [serialize_category(category)
-                           for category in Category.objects.order_by('name')]
+                           for category in Category.objects.filter(is_active=True).order_by('name')]
         }
 
         return Response(response, status=status.HTTP_200_OK)
