@@ -9,7 +9,7 @@ from financial_server.apps.categories.models import Category
 from financial_server.apps.financial_goals.models import FinancialGoal, GoalSavingsTransaction
 
 
-class AddSavingsGoal(forms.Form):
+class EditGoalForm(forms.Form):
     category = forms.ModelChoiceField(queryset=Category.objects.all())
     amount = forms.IntegerField()
     name = forms.CharField()
@@ -57,7 +57,7 @@ class AddSavingsGoal(forms.Form):
         return goal
 
 
-class AddSavingGoalsTransaction(forms.ModelForm):
+class EditGoalSavingTransactionForm(forms.ModelForm):
 
     class Meta:
         model = GoalSavingsTransaction
