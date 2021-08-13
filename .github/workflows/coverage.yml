@@ -11,11 +11,6 @@ jobs:
         python-version: 3.7
     - name: Generate coverage report
       run: |
-        pip install pytest
-        export DIFF_FILES=$(git diff --name-only --diff-filter=ACM $(git merge-base HEAD origin/master) | grep "\.py" | grep -v "settings" | grep -v "migrations")
-        if [[ ! -z $DIFF_FILES ]]
-        then
-          echo "[Eslint] Checking ..." $DIFF_FILES
-          coverage run --source='.' manage.py test --parallel
-          coverage report
-        fi
+        pip install coverage
+        coverage run --source='.' manage.py test --parallel
+        coverage report
