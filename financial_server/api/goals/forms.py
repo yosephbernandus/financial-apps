@@ -45,16 +45,18 @@ class EditGoalForm(forms.Form):
         return self.cleaned_data
 
     def save(self) -> FinancialGoal:
-        goal: FinancialGoal = FinancialGoal.objects.create(
+        goal: FinancialGoal = FinancialGoal.objects.update_or_create(
             user=self.user,
-            category=self.cleaned_data['category'],
-            amount=self.cleaned_data['amount'],
-            name=self.cleaned_data['name'],
-            achievement_date=parser.parse(self.cleaned_data['achievement_date']).date(),
-            deposit_cycle=self.cleaned_data['deposit_cycle']
+            defaults= {
+                'category': self.cleaned_data['category'],
+                'amount': self.cleaned_data['amount'],
+                'goal_name': self.cleaned_data['name'],
+                'achievement_date': parser.parse(self.cleaned_data['achievement_date']).date(),
+                'deposit_cycle': self.cleaned_data['deposit_cycle']
+            }
         )
 
-        return goal
+        return goal[0]
 
 
 class EditGoalSavingTransactionForm(forms.ModelForm):
