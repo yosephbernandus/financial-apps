@@ -16,7 +16,8 @@ install:
   - python3 -m pip install tblib  # for parallel test traceback
   - python3 -m pip install -r requirements.txt 
   - python3 -m pip install flake8 
-  - python3 -m pip install django-stubs==1.4.0 
+  - python3 -m pip install django-stubs==1.4.0
+  - python3 -m pip install coverage
 
 cache:
   pip: true
@@ -35,6 +36,7 @@ before_script:
 script:
   - . venv/bin/activate
   - python manage.py test --parallel
+  - coverage run --source='.' manage.py test --parallel && coverage report && coverage xml
   - export CHANGED_FILES=$(git diff --name-only --diff-filter=ACM origin/master ':(exclude).travis.yml')
   - if [ -n "${CHANGED_FILES}" ]; then
       echo "Checking ..." $CHANGED_FILES;
