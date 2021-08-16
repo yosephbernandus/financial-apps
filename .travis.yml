@@ -13,6 +13,7 @@ install:
   - python3 -m venv venv
   - . venv/bin/activate
   - python3 -m pip install --upgrade pip
+  - python3 -m pip install coverage
   - python3 -m pip install tblib  # for parallel test traceback
   - python3 -m pip install -r requirements.txt 
   - python3 -m pip install flake8 
@@ -34,7 +35,7 @@ before_script:
 
 script:
   - . venv/bin/activate
-  - python manage.py test --parallel
+  - coverage run --source='.' manage.py test --parallel && coverage report && coverage xml
   - export CHANGED_FILES=$(git diff --name-only --diff-filter=ACM origin/master ':(exclude).travis.yml')
   - if [ -n "${CHANGED_FILES}" ]; then
       echo "Checking ..." $CHANGED_FILES;
