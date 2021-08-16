@@ -22,8 +22,14 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install coverage
-    - name: Generate coverage report
+    - name: Running Unittest
       run: |
-        coverage run --source='.' manage.py test --parallel
-        coverage report
+        python manage.py collectstatic --no-input
+        coverage run manage.py test --parallel --exclude-tag=sms_office_test && coverage report --fail-under=75 && coverage xml
+    - name: Report coverage to codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: 66f7af80-699e-4429-baef-e55e21f73359
+        files: ./coverage.xml
+        directory: ./coverage/reports/
+        fail_ci_if_error: true
