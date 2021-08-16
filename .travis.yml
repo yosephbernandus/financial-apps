@@ -17,6 +17,7 @@ install:
   - python3 -m pip install -r requirements.txt 
   - python3 -m pip install flake8 
   - python3 -m pip install django-stubs==1.4.0
+  - python3 -m pip install coverage
   - python3 -m pip install codecov
 
 cache:
