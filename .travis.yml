@@ -8,7 +8,6 @@ services:
 
 env:
   - DJANGO=3.2 DB=postgresql
-  - 
 
 install:
   - python3 -m venv venv
