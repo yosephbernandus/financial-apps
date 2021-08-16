@@ -1,13 +1,13 @@
 language: python
 python:
-  - "3.6.9"
+  - "3.8.5"
 
 services:
   - redis-server
   - postgresql
 
 env:
-  - DJANGO=3.1.5 DB=postgresql
+  - DJANGO=3.2 DB=postgresql
 
 install:
   - python3 -m venv venv
@@ -16,7 +16,8 @@ install:
   - python3 -m pip install tblib  # for parallel test traceback
   - python3 -m pip install -r requirements.txt 
   - python3 -m pip install flake8 
-  - python3 -m pip install django-stubs==1.4.0 
+  - python3 -m pip install django-stubs==1.4.0
+  - python3 -m pip install codecov
 
 cache:
   pip: true
@@ -34,9 +35,12 @@ before_script:
 
 script:
   - . venv/bin/activate
-  - python manage.py test --parallel
+  - coverage run --source='.' manage.py test --parallel && coverage report && coverage xml
   - export CHANGED_FILES=$(git diff --name-only --diff-filter=ACM origin/master ':(exclude).travis.yml')
   - if [ -n "${CHANGED_FILES}" ]; then
       echo "Checking ..." $CHANGED_FILES;
-      /home/travis/virtualenv/python3.6.9/bin/flake8 --exclude migrations,libraries,settings.py,*.yml,*.txt,*.html,*.js,*.css,*.ini,*.scss,*.md,mortgage.py,yarn.lock,package.json --ignore=E501,W503 $CHANGED_FILES;
+      /home/travis/build/yosephbernandus/financial-apps/venv/bin/flake8 --exclude migrations,libraries,.coveragerc,settings.py,*.yml,*.txt,*.html,*.js,*.css,*.ini,*.scss,*.md,mortgage.py,yarn.lock,package.json --ignore=E501,W503 $CHANGED_FILES;
     fi
+
+after_success:
+  - codecov -t $CODECOV_TOKEN
