@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.6.9"
+  - "3.8.5"
 
 services:
   - redis-server
@@ -13,7 +13,6 @@ install:
   - python3 -m venv venv
   - . venv/bin/activate
   - python3 -m pip install --upgrade pip
-  - python3 -m pip install coverage
   - python3 -m pip install tblib  # for parallel test traceback
   - python3 -m pip install -r requirements.txt 
   - python3 -m pip install flake8 
