@@ -19,6 +19,7 @@ install:
   - python3 -m pip install django-stubs==1.4.0
   - python3 -m pip install coverage
   - python3 -m pip install codecov
+  - python3 -m pip install pytest-cov
 
 cache:
   pip: true
@@ -36,7 +37,7 @@ before_script:
 
 script:
   - . venv/bin/activate
-  - coverage run --source='.' manage.py test --parallel && coverage report && coverage xml
+  - pytest --cov-report=xml --cov=financial_server
   - export CHANGED_FILES=$(git diff --name-only --diff-filter=ACM origin/master ':(exclude).travis.yml')
   - if [ -n "${CHANGED_FILES}" ]; then
       echo "Checking ..." $CHANGED_FILES;
@@ -44,4 +45,4 @@ script:
     fi
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -t 66f7af80-699e-4429-baef-e55e21f73359
+  - codecov -t 66f7af80-699e-4429-baef-e55e21f73359
