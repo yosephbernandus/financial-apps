@@ -7,4 +7,4 @@ from financial_server.api.views import SessionAPIView
 class HelloWorldView(SessionAPIView):
 
     def get(self, request):
-        return Response(data={"hello":"hello world"}, status=status.HTTP_200_OK)
+        return Response(data={"hello": "hello world"}, status=status.HTTP_200_OK)
