@@ -43,4 +43,4 @@ script:
     fi
 
 after_success:
-  - codecov -t ${{ secrets.CODECOV_TOKEN }}
+  - codecov -t CODECOV_TOKEN
