@@ -43,4 +43,4 @@ script:
     fi
 
 after_success:
-  - codecov -t 66f7af80-699e-4429-baef-e55e21f73359
+  - codecov -t ${{ secrets.CODECOV_TOKEN }}
