@@ -8,6 +8,7 @@ services:
 
 env:
   - DJANGO=3.2 DB=postgresql
+  - 
 
 install:
   - python3 -m venv venv
@@ -39,8 +40,8 @@ script:
   - export CHANGED_FILES=$(git diff --name-only --diff-filter=ACM origin/master ':(exclude).travis.yml')
   - if [ -n "${CHANGED_FILES}" ]; then
       echo "Checking ..." $CHANGED_FILES;
-      /home/travis/build/yosephbernandus/financial-apps/venv/bin/flake8 --exclude migrations,libraries,settings.py,*.yml,*.txt,*.html,*.js,*.css,*.ini,*.scss,*.md,mortgage.py,yarn.lock,package.json --ignore=E501,W503 $CHANGED_FILES;
+      /home/travis/build/yosephbernandus/financial-apps/venv/bin/flake8 --exclude migrations,libraries,.coveragerc,settings.py,*.yml,*.txt,*.html,*.js,*.css,*.ini,*.scss,*.md,mortgage.py,yarn.lock,package.json --ignore=E501,W503 $CHANGED_FILES;
     fi
 
 after_success:
-  - codecov -t CODECOV_TOKEN
+  - codecov -t $CODECOV_TOKEN

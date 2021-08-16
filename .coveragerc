@@ -1,0 +1,10 @@
+[report][run][xml]
+omit=
+    */venv/*
+    */staticfiles/*
+    */migrations/*
+    */__init__.py
+    */fabfiles/*
+    */sms_office/*
+    manage.py
+    fabfile.py
