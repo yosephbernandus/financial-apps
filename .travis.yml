@@ -43,4 +43,6 @@ script:
     fi
 
 after_success:
-  - codecov -t $CODECOV_TOKEN
+  - codecov -t $CODECOV_TOKEN -F unittests
+
+flags:
