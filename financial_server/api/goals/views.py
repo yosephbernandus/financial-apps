@@ -38,7 +38,7 @@ class EditGoal(SessionAPIView):
 
         if form.is_valid():
             goal = form.save()
-            return response(serialize_financial_goals(goal), status=status.HTTP_200_OK)
+            return Response(serialize_financial_goals(goal), status=status.HTTP_200_OK)
 
         return ErrorResponse(form=form)
 
