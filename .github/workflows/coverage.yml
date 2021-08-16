@@ -24,7 +24,7 @@ jobs:
         pip install -r requirements.txt
     - name: Running Unittest
       run: |
-        coverage run manage.py test && coverage report --fail-under=75 && coverage xml
+        coverage run --source='.' manage.py test --parallel && coverage report --fail-under=75 && coverage xml
     - name: Report coverage to codecov
       uses: codecov/codecov-action@v1
       with:
