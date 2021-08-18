@@ -44,10 +44,3 @@ script:
 
 after_success:
   - codecov -t $CODECOV_TOKEN -F integration
-
-coverage:
-  status:
-    patch:
-      default:
-        enabled: no
-        if_not_found: success
