@@ -43,4 +43,4 @@ script:
     fi
 
 after_success:
-  - codecov -t $CODECOV_TOKEN -F integration
+  - codecov -t $CODECOV_TOKEN -F unittests
