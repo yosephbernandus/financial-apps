@@ -44,8 +44,6 @@ def serialize_category(category: Category) -> Dict:
     if settings.SHOW_IMAGE_FROM_LOCAL and category_url:
         data['logo_url'] = f"{settings.HOST}{category_url}"
 
-    print(data)
-
     return data
 
 
