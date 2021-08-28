@@ -7,7 +7,7 @@ from model_utils import Choices
 class FinancialGoal(models.Model):
     user = models.ForeignKey('users.User', related_name="financial_goals", on_delete=models.CASCADE)
     category = models.ForeignKey('categories.Category', on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    amount = models.FloatField(default=0)
     goal_name = models.CharField(blank=True, null=True, max_length=64)
     achievement_date = models.DateField(db_index=True, blank=True, null=True)
     CYCLE = Choices(
@@ -25,8 +25,8 @@ class FinancialGoal(models.Model):
 
 class GoalSavingsTransaction(models.Model):
     goal = models.ForeignKey('financial_goals.FinancialGoal', related_name="transactions", on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    amount = models.FloatField(default=0)
     created = models.DateTimeField(default=timezone.localtime)
 
     def __str__(self) -> str:
-        return self.id
+        return f"{self.id}"
