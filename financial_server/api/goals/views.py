@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from financial_server.api.response import ErrorResponse
 from financial_server.api.views import SessionAPIView
 from financial_server.apps.financial_goals.models import FinancialGoal
-from financial_server.core.serializers import serialize_financial_goals
+from financial_server.core.serializers import serialize_financial_goals, serialize_goal_savings_transaction
 
 from .forms import EditGoalForm, EditGoalSavingTransactionForm
 
@@ -28,6 +28,7 @@ class Details(SessionAPIView):
 
     def get(self, request: Request, id: int) -> Response:
         goal = get_object_or_404(FinancialGoal, user=request.user, id=id)
+        print(serialize_financial_goals(goal))
         return Response(serialize_financial_goals(goal), status=status.HTTP_200_OK)
 
 
@@ -46,10 +47,10 @@ class EditGoal(SessionAPIView):
 class EditGoalSavingTransaction(SessionAPIView):
 
     def post(self, request: Request) -> Response:
-        form = EditGoalSavingTransactionForm(data=request.data)
+        form = EditGoalSavingTransactionForm(data=request.data, user=request.user)
 
         if form.is_valid():
-            form.save()
-            return Response({"status": "ok"}, status=status.HTTP_200_OK)
+            transaction = form.save()
+            return Response(serialize_goal_savings_transaction(transaction), status=status.HTTP_200_OK)
 
         return ErrorResponse(form=form)

@@ -55,7 +55,7 @@ def serialize_financial_goals(goal: FinancialGoal) -> Dict:
         'name': goal.goal_name,
         'achievement_date': goal.achievement_date.strftime("%Y-%m-%d"),
         'deposit_cycle': goal.deposit_cycle,
-        'deposit_amount_per_cycle': goal.deposit_amount_per_cycle(),
+        'deposit_amount_per_cycle': round(goal.deposit_amount_per_cycle()),
     }
 
     if goal.transactions.exists():

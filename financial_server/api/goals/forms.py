@@ -56,8 +56,27 @@ class EditGoalForm(forms.Form):
         return goal
 
 
-class EditGoalSavingTransactionForm(forms.ModelForm):
+class EditGoalSavingTransactionForm(forms.Form):
+    goal = forms.ModelChoiceField(queryset=FinancialGoal.objects.all())
+    amount = forms.IntegerField()
 
-    class Meta:
-        model = GoalSavingsTransaction
-        fields = ('goal', 'amount')
+    def __init__(self, user: User, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def clean(self) -> Dict:
+        if self.errors:
+            return self.cleaned_data
+
+        if self.cleaned_data['goal'].user != self.user:
+            raise forms.ValidationError("Not authorized user")
+
+        return self.cleaned_data
+
+    def save(self) -> GoalSavingsTransaction:
+        goal = self.cleaned_data['goal']
+        transaction = goal.transactions.create(
+            amount=self.cleaned_data['amount']
+        )
+
+        return transaction
