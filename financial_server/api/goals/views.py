@@ -28,7 +28,6 @@ class Details(SessionAPIView):
 
     def get(self, request: Request, id: int) -> Response:
         goal = get_object_or_404(FinancialGoal, user=request.user, id=id)
-        print(serialize_financial_goals(goal))
         return Response(serialize_financial_goals(goal), status=status.HTTP_200_OK)
 
 
