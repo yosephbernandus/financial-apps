@@ -50,7 +50,7 @@ class EditGoalSavingTransaction(SessionAPIView):
         form = EditGoalSavingTransactionForm(data=request.data, user=request.user)
 
         if form.is_valid():
-            transaction = form.save()
-            return Response(serialize_goal_savings_transaction(transaction), status=status.HTTP_200_OK)
+            goal = form.save()
+            return Response(serialize_financial_goals(goal), status=status.HTTP_200_OK)
 
         return ErrorResponse(form=form)

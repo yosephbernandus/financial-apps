@@ -73,10 +73,10 @@ class EditGoalSavingTransactionForm(forms.Form):
 
         return self.cleaned_data
 
-    def save(self) -> GoalSavingsTransaction:
+    def save(self) -> FinancialGoal:
         goal = self.cleaned_data['goal']
-        transaction = goal.transactions.create(
+        goal.transactions.create(
             amount=self.cleaned_data['amount']
         )
 
-        return transaction
+        return goal
