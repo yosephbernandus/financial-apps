@@ -1,3 +1,5 @@
+import math
+
 from django.db import models
 from django.utils import timezone
 
@@ -21,6 +23,25 @@ class FinancialGoal(models.Model):
 
     def __str__(self) -> str:
         return self.goal_name
+
+    def deposit_amount_per_cycle(self) -> float:
+        if not self.achievement_date:
+            raise ValueError('Invalid achievement date')
+
+        days = (self.achievement_date - self.created.date()).days
+        if self.deposit_cycle == FinancialGoal.CYCLE.daily:
+            deposit_amount = self.amount / days
+        elif self.deposit_cycle == FinancialGoal.CYCLE.weekly:
+            avg_amount = self.amount / math.ceil(days / 7)
+            deposit_amount = math.ceil(avg_amount)
+        elif self.deposit_cycle == FinancialGoal.CYCLE.monthly:
+            avg_amount = self.amount / math.ceil(days / 30)
+            deposit_amount = math.ceil(avg_amount)
+        else:
+            avg_amount = self.amount / math.ceil(days / 365)
+            deposit_amount = math.ceil(avg_amount)
+
+        return deposit_amount
 
 
 class GoalSavingsTransaction(models.Model):
