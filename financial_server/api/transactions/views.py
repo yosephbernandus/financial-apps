@@ -7,6 +7,8 @@ from financial_server.api.views import SessionAPIView
 
 from financial_server.core.serializers import serialize_transactions
 
+from .forms import EditTransactionForm
+
 class Sync(SessionAPIView):
     
     def get(self, request: Request) -> Response:
@@ -16,3 +18,15 @@ class Sync(SessionAPIView):
         }
 
         return Response(response, status=status.HTTP_200_OK)
+
+
+class EditTransaction(SessionAPIView):
+    
+    def post(self, request: Request) -> Response:
+        form = EditTransactionForm(data=request.data, user=request.user)
+
+        if form.is_valid():
+            transaction = form.save()
+            return Response(serialize_transactions(transaction), status=status.HTTP_200_OK)
+
+        return ErrorResponse(form=form)
