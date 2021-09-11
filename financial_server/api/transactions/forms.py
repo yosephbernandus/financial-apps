@@ -40,7 +40,7 @@ class EditTransactionForm(forms.Form):
     def save(self) -> Transaction:
         transaction = self.user.transactions.create(
             name=self.cleaned_data['name'],
-            category=self.cleaned_data['categoty'],
+            category=self.cleaned_data['category'],
             amount=self.cleaned_data['amount'],
             type=self.cleaned_data['type'],
             notes=self.cleaned_data['notes']
