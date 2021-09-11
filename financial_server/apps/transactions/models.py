@@ -9,7 +9,7 @@ from thumbnails.fields import ImageField
 
 class Transaction(models.Model):
 
-    user = models.OneToOneField('users.User', related_name='transaction', on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', related_name='transactions', on_delete=models.CASCADE)
     balance = models.ForeignKey('balances.Balance', related_name='transactions',
                                 on_delete=models.CASCADE)
 
