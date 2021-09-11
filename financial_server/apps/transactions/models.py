@@ -10,7 +10,7 @@ from thumbnails.fields import ImageField
 class Transaction(models.Model):
 
     user = models.ForeignKey('users.User', related_name='transactions', on_delete=models.CASCADE)
-    balance = models.ForeignKey('balances.Balance', related_name='transactions',
+    balance = models.ForeignKey('balances.Balance', related_name='transactions', blank=True, null=True,
                                 on_delete=models.CASCADE)
 
     class TYPE(IntegerChoices):
