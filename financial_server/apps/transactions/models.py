@@ -20,6 +20,7 @@ class Transaction(models.Model):
     type = models.PositiveSmallIntegerField(choices=TYPE.choices)
     amount = models.FloatField()
     notes = models.TextField(default='', blank=True, null=True)
+    category = models.ForeignKey('categories.Category', on_delete=models.CASCADE, blank=True, null=True)
     photo = ImageField(upload_to=FilenameGenerator(prefix='transactions'),
                        blank=True, null=True)
     updated = models.DateTimeField(blank=True, null=True)
