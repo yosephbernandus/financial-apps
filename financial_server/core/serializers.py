@@ -6,6 +6,7 @@ from django.conf import settings
 from financial_server.apps.users.models import User
 from financial_server.apps.categories.models import Category
 from financial_server.apps.financial_goals.models import FinancialGoal, GoalSavingsTransaction
+from financial_server.apps.transactions.models import Transaction
 
 
 def serialize_user(user: User) -> Dict:
@@ -70,3 +71,17 @@ def serialize_goal_savings_transaction(transaction: GoalSavingsTransaction) -> D
         'amount': transaction.amount,
         'created': transaction.created.strftime("%Y-%m-%d") if transaction.created else None
     }
+
+
+def serialize_transactions(transaction: Transaction) -> Dict:
+    data = {
+        'id': transaction.id,
+        'name': transaction.name,
+        'type': transaction.type,
+        'amount': transaction.amount,
+        'notes': transaction.notes,
+        'category_id': transaction.category.id if transaction.category else None,
+        'created': transaction.created.strftime("%Y-%m-%d"),
+    }
+
+    return data
