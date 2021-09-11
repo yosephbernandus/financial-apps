@@ -17,6 +17,7 @@ class Transaction(models.Model):
         income = 1, ('Income')
         outcome = 2, ('Outcome')
 
+    name = models.CharField(blank=True, null=True, max_length=64)
     type = models.PositiveSmallIntegerField(choices=TYPE.choices)
     amount = models.FloatField()
     notes = models.TextField(default='', blank=True, null=True)
