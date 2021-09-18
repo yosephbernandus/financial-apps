@@ -2,12 +2,13 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from django.contrib.auth import logout
 from django.http import HttpResponseForbidden
 
 from financial_server.api.authentication import JSONSingleTokenAuthentication
 from financial_server.api.response import ErrorResponse
 from financial_server.api.utils import force_login
-from financial_server.api.views import FinancialAPIView
+from financial_server.api.views import FinancialAPIView, SessionAPIView
 from financial_server.apps.users.models import User
 from financial_server.core.serializers import serialize_user
 
@@ -52,3 +53,10 @@ class Register(FinancialAPIView):
             return Response(response, status=status.HTTP_200_OK)
 
         return ErrorResponse(form=form)
+
+
+class Logout(SessionAPIView):
+    
+    def post(self, request: Request) -> Response:
+        logout(request)
+        return Response({'status': 'ok'}, status=status.HTTP_200_OK)
