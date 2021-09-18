@@ -3,6 +3,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from django.contrib.auth import logout
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponseForbidden
 
 from financial_server.api.authentication import JSONSingleTokenAuthentication
@@ -60,3 +61,13 @@ class Logout(SessionAPIView):
     def post(self, request: Request) -> Response:
         logout(request)
         return Response({'status': 'ok'}, status=status.HTTP_200_OK)
+
+
+class ChangePassword(SessionAPIView):
+    
+    def post(self, request: Request) -> Response:
+        form = PasswordChangeForm(data=request.data, user=request.user)
+        if form.is_valid():
+            user = form.save()
+            return Response(serialize_user(user), status=status.HTTP_200_OK)  # type: ignore
+        return ErrorResponse(form=form)
