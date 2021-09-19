@@ -242,7 +242,7 @@ THUMBNAILS = {
         'size_480x800': {
             'FORMAT': 'webp',
             'PROCESSORS': [
-                {'PATH': 'thumbnails.processors.resize', 'width': 480, 'height': 800, 'method': 'fit'},
+                {'PATH': 'thumbnails.processors.resize', 'width': 480, 'height': 800, 'method': 'fill'},
                 {'PATH': 'thumbnails.processors.crop', 'width': 480, 'height': 800},
             ],
         }
