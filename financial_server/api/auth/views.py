@@ -93,3 +93,10 @@ class EditPhoto(SessionAPIView):
             user = form.save()
             return Response(serialize_user(user), status=status.HTTP_200_OK)
         return ErrorResponse(form=form)
+
+
+class SyncProfile(SessionAPIView):
+
+    def get(self, request: Request) -> Response:
+        result = serialize_user(request.user)
+        return Response(result, status=status.HTTP_200_OK)
