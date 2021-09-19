@@ -29,6 +29,9 @@ def serialize_user(user: User) -> Dict:
         'address': user.profile.address,
     }
 
+    if settings.SHOW_IMAGE_FROM_LOCAL and photo_url:
+        data['photoUrl'] = f"{settings.HOST}{photo_url}"
+
     return data
 
 

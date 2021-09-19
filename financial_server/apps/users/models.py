@@ -117,7 +117,7 @@ class Profile(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
     place_of_birth = models.CharField(max_length=50, blank=True, null=True)
     photo = ImageField(upload_to=FilenameGenerator(prefix='profiles'),
-                       blank=True, null=True)
+                       blank=True, null=True, resize_source_to='size_480x800')
     id_card_photo = ImageField(upload_to=FilenameGenerator(prefix='id_cards'),
                                blank=True, null=True)
     id_card_address = models.TextField(blank=True, default='')

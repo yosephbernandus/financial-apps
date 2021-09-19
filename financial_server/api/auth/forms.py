@@ -173,3 +173,17 @@ class EditProfileForm(forms.Form):
         )
 
         return user
+
+
+class EditPhotoForm(forms.Form):
+    photo = forms.ImageField(required=True)
+
+    def __init__(self, user: User, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def save(self) -> User:
+        self.user.profile.photo = self.cleaned_data['photo']
+        self.user.profile.save(update_fields=['photo'])
+
+        return self.user

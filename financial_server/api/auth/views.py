@@ -9,11 +9,11 @@ from django.http import HttpResponseForbidden
 from financial_server.api.authentication import JSONSingleTokenAuthentication
 from financial_server.api.response import ErrorResponse
 from financial_server.api.utils import force_login
-from financial_server.api.views import FinancialAPIView, SessionAPIView
+from financial_server.api.views import FinancialAPIView, SessionAPIView, MultiPartParser
 from financial_server.apps.users.models import User
 from financial_server.core.serializers import serialize_user
 
-from .forms import AuthenticationForm, RegistrationForm, EditProfileForm
+from .forms import AuthenticationForm, RegistrationForm, EditProfileForm, EditPhotoForm
 
 
 class AuthLogin(FinancialAPIView):
@@ -79,5 +79,17 @@ class EditProfile(SessionAPIView):
         form = EditProfileForm(data=request.data, user=request.user)
         if form.is_valid():
             user = form.save(user=request.user)
+            return Response(serialize_user(user), status=status.HTTP_200_OK)
+        return ErrorResponse(form=form)
+
+
+class EditPhoto(SessionAPIView):
+    permission_classes: tuple = ()
+    parser_classes = (MultiPartParser,)
+
+    def post(self, request: Request) -> Response:
+        form = EditPhotoForm(data=request.data, user=request.user, files=request.FILES or None)
+        if form.is_valid():
+            user = form.save()
             return Response(serialize_user(user), status=status.HTTP_200_OK)
         return ErrorResponse(form=form)

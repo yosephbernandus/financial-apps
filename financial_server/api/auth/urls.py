@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import AuthLogin, Register, Logout, ChangePassword, EditProfile
+from .views import AuthLogin, EditPhoto, Register, Logout, ChangePassword, EditProfile, EditPhotoForm
 
 app_name = "auth"
 
@@ -10,5 +10,5 @@ urlpatterns = [
     path('logout', Logout.as_view(), name="logout"),
     path('change-password', ChangePassword.as_view(), name="change_password"),
     path('edit-profile', EditProfile.as_view(), name="edit_profile"),
+    path('edit-profile-photo', EditPhoto.as_view(), name="edit_profile_photo"),
 ]
- 
