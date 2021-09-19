@@ -115,3 +115,61 @@ class RegistrationForm(forms.Form):
             birthday=self.cleaned_data['birthday'],
         )
         return user
+
+
+class EditProfileForm(forms.Form):
+    name = forms.CharField()
+    phone = MobilePhoneField()
+    birthday = forms.CharField()
+    gender = forms.ChoiceField(choices=Profile.GENDER)
+    address = forms.CharField(required=False)
+    
+    def __init__(self, user: User, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def clean_phone(self) -> str:
+        try:
+            phone = normalize_phone(self.cleaned_data['phone'])
+        except phonenumbers.NumberParseException:
+            raise forms.ValidationError('Nomor ponsel tidak valid.', code='invalid_mobile_number')
+
+        if self.user.phone != phone and User.objects.filter(phone=phone).exists():
+            raise forms.ValidationError('Pengguna dengan nomor telepon ini sudah ada')
+        return phone
+
+    def clean_birthday(self) -> date:
+        birthday = self.cleaned_data.get('birthday')
+
+        try:
+            birthday = parser.parse(birthday).date()
+        except ValueError:
+            raise forms.ValidationError("%s bukan format yang benar" % birthday)
+
+        if birthday > timezone.now().date() - relativedelta(years=17):
+            raise forms.ValidationError("Usia minimum adalah 17 tahun")
+
+        if birthday.year < 1900:
+            raise forms.ValidationError("Ulang tahun tidak bisa didaftarkan")
+
+        return birthday
+
+    def save(self, user: User) -> User:
+        user.name = self.cleaned_data['name']
+        user.phone = normalize_phone(self.cleaned_data['phone'])
+        user.save(update_fields=['name', 'phone'])
+        
+        defaults = {
+            'birthday': self.cleaned_data['birthday'],
+            'gender': self.cleaned_data['gender']
+        }
+        
+        if self.cleaned_data['address']:
+            defaults['address'] = self.cleaned_data['address']
+
+        Profile.objects.update_or_create(
+            user=user,
+            defaults=defaults
+        )
+
+        return user

@@ -13,7 +13,7 @@ from financial_server.api.views import FinancialAPIView, SessionAPIView
 from financial_server.apps.users.models import User
 from financial_server.core.serializers import serialize_user
 
-from .forms import AuthenticationForm, RegistrationForm
+from .forms import AuthenticationForm, RegistrationForm, EditProfileForm
 
 
 class AuthLogin(FinancialAPIView):
@@ -70,4 +70,14 @@ class ChangePassword(SessionAPIView):
         if form.is_valid():
             user = form.save()
             return Response(serialize_user(user), status=status.HTTP_200_OK)  # type: ignore
+        return ErrorResponse(form=form)
+
+
+class EditProfile(SessionAPIView):
+
+    def post(self, request: Request) -> Response:
+        form = EditProfileForm(data=request.data, user=request.user)
+        if form.is_valid():
+            user = form.save(user=request.user)
+            return Response(serialize_user(user), status=status.HTTP_200_OK)
         return ErrorResponse(form=form)
