@@ -105,7 +105,7 @@ class RegistrationForm(forms.Form):
         user: User = User.objects.create(
             name=self.cleaned_data['name'],
             email=self.cleaned_data['email'],
-            phone=self.cleaned_data['phone'],
+            phone=normalize_phone(self.cleaned_data['phone']),
         )
 
         user.set_password(self.cleaned_data['password'])
