@@ -287,6 +287,8 @@ TEMPLATES = [
     },
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 try:
     from .local_settings import *  # type: ignore  # noqa
 except ImportError:
