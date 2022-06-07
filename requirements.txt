@@ -35,5 +35,5 @@ python-dateutil==2.8.1
 # sentry
 sentry-sdk==0.19.5
 
-PyJWT==1.7.1
+PyJWT==2.4.0
 coverage==5.5
