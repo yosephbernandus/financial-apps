@@ -1,4 +1,4 @@
-Django==3.2.13
+Django==3.2.15
 django-model-utils==4.1.1
 djangorestframework==3.12.2
 djangorestframework-xml==2.0.0
