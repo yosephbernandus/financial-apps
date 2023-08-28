@@ -10,7 +10,7 @@ django-cors-headers==3.7.0
 
 psycopg2-binary==2.8.6
 time-machine==2.0.1
-lxml==4.6.5
+lxml==4.9.1
 
 # Smart Session Engine
 -e git://github.com/ui/django-smart-session-engine.git@85f4a60e391aba0f3655b1b03a0cb2e00a887bdf#egg=django-smart-session-engine
