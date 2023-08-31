@@ -19,7 +19,7 @@ lxml==4.6.5
 id-phonenumbers==0.4.0
 phonenumberslite==8.12.17
 responses==0.12.1
-requests==2.25.1
+requests==2.31.0
 
 redis==3.5.3
 pillow==9.0.1
