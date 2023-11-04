@@ -22,7 +22,7 @@ responses==0.12.1
 requests==2.31.0
 
 redis==3.5.3
-pillow==9.3.0
+pillow==10.0.1
 django-redis==4.12.1
 django-libsass==0.8
 
